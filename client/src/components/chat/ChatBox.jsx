@@ -10,7 +10,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { io } from "socket.io-client";
 import { Tooltip } from "antd";
-const socket = io(import.meta.env.VITE_BACKEND_URL, {
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"],
 });
 

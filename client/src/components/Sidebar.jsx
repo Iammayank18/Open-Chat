@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi";
 import { io } from "socket.io-client";
-const socket = io(import.meta.env.VITE_BACKEND_URL, {
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"],
 });
 

@@ -8,7 +8,7 @@ import Sidebar from "./components/Sidebar";
 import { LoginUser } from "./redux/action";
 import ChatBox from "./components/chat/ChatBox";
 import { io } from "socket.io-client";
-const socket = io(import.meta.env.VITE_BACKEND_URL, {
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"],
 });
 

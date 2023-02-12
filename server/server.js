@@ -11,7 +11,10 @@ const httpServer = createServer(app);
 app.use(cors());
 app.use(express.json());
 
-app.post("/register", (req, res) => {
+app.get("/api/openchat/", (req, res) => {
+  res.send("working");
+});
+app.post("/api/openchat/register", (req, res) => {
   const { username, email, password } = req.body;
 
   const checkUser = (username, email) => {
@@ -65,7 +68,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/openchat/login", (req, res) => {
   const { email, password } = req.body;
   db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
     if (err) {
@@ -127,6 +130,7 @@ io.on("connection", (socket) => {
       users.push(user);
     }
     setInterval(function () {
+      console.log("ad");
       socket.emit("get-connected-users", users);
     }, 1000);
   });

@@ -8,7 +8,12 @@ const db = new sqlite3.Database("user.db");
 const users = [];
 const app = express();
 const httpServer = createServer(app);
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 app.use(express.json());
 
 app.get("/api/openchat/", (req, res) => {

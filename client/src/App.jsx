@@ -8,7 +8,7 @@ import Sidebar from "./components/Sidebar";
 import { LoginUser } from "./redux/action";
 import ChatBox from "./components/chat/ChatBox";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000", {
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
   transports: ["websocket", "polling"],
 });
 
@@ -19,7 +19,7 @@ function App() {
   const [connectedUsers, setConnectedUSers] = useState([]);
   const alldata = useSelector((state) => state?.MainReducer);
   const uname = alldata?.data?.username;
-  console.log(uname);
+
   const localData = JSON.parse(localStorage.getItem("auth"));
 
   useEffect(() => {
@@ -41,12 +41,10 @@ function App() {
 
   useEffect(() => {
     socket.on("get-connected-users", function(data) {
-      console.log(data);
       setConnectedUSers(data);
     });
   });
 
-  console.log(connectedUsers);
   return (
     <div className="App">
       <div className="p-2 container mx-auto w-11/12  sm:w-6/12 md:w-6/12 flex">

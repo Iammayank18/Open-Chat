@@ -5,7 +5,6 @@ const { Server } = require("socket.io");
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database("user.db");
 
-let usersMap = {};
 const users = [];
 const app = express();
 const httpServer = createServer(app);
@@ -14,7 +13,7 @@ app.use(express.json());
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
-  // console.log(req.body);
+
   const checkUser = (username, email) => {
     return new Promise((resolve, reject) => {
       let sql = `SELECT COUNT(*) as count FROM users WHERE username = ? OR email = ?`;
@@ -48,7 +47,6 @@ app.post("/register", (req, res) => {
         );
         stmt.run(username, email, password);
         stmt.finalize((err, result) => {
-          console.log("result is " + result);
           if (err) {
             res.json({
               msg: "something went wrong",
@@ -59,7 +57,6 @@ app.post("/register", (req, res) => {
             msg: "user registered",
             status: true,
           });
-          // console.log(err);
         });
       }
     })
@@ -69,50 +66,44 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  // console.log(req.body);
   const { email, password } = req.body;
-  db.get(
-    `SELECT * FROM users WHERE email = ?`,
-    [req.body.email],
-    (err, row) => {
-      if (err) {
-        console.error(err.message);
-      }
-      if (row) {
-        if (row.password === password) {
-          db.get(
-            "SELECT * FROM users WHERE email = ? AND password = ?",
-            [req.body.email, req.body.password],
-            function (err, row) {
-              if (row) {
-                res.json({
-                  msg: "logged in successfully",
-                  status: true,
-                  data: row,
-                });
-              } else {
-                res.json({
-                  msg: "something went wrong",
-                  status: false,
-                });
-              }
+  db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
+    if (err) {
+      console.error(err.message);
+    }
+    if (row) {
+      if (row.password === password) {
+        db.get(
+          "SELECT * FROM users WHERE email = ? AND password = ?",
+          [req.body.email, req.body.password],
+          function (err, row) {
+            if (row) {
+              res.json({
+                msg: "logged in successfully",
+                status: true,
+                data: row,
+              });
+            } else {
+              res.json({
+                msg: "something went wrong",
+                status: false,
+              });
             }
-          );
-        } else {
-          res.json({
-            msg: "invalid credentials",
-            status: false,
-          });
-        }
+          }
+        );
       } else {
-        console.log("User does not exist in the database");
         res.json({
-          msg: "User not exist",
+          msg: "invalid credentials",
           status: false,
         });
       }
+    } else {
+      res.json({
+        msg: "User not exist",
+        status: false,
+      });
     }
-  );
+  });
 
   // db.close();
 });

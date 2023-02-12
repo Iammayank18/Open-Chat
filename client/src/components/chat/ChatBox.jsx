@@ -5,19 +5,15 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import draftToHtml from "draftjs-to-html";
 import { GoMention } from "react-icons/go";
-import {
-  EditorState,
-  convertToRaw,
-  Modifier,
-  Entity,
-  RichUtils,
-} from "draft-js";
+import { EditorState, convertToRaw, Modifier, Entity } from "draft-js";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { io } from "socket.io-client";
 import { Tooltip } from "antd";
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
+  transports: ["websocket", "polling"],
+});
 
-const socket = io("http://localhost:3000");
 const ChatBox = ({ connectedUsers, alldata, editorState, setEditorState }) => {
   let localData = JSON.parse(localStorage.getItem("auth"));
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -28,7 +24,7 @@ const ChatBox = ({ connectedUsers, alldata, editorState, setEditorState }) => {
 
   function uploadImageCallBack(file) {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader(); // eslint-disable-line no-undef
+      const reader = new FileReader();
       reader.onload = (e) => resolve({ data: { link: e.target.result } });
       reader.onerror = (e) => reject(e);
       reader.readAsDataURL(file);
@@ -154,7 +150,6 @@ const ChatBox = ({ connectedUsers, alldata, editorState, setEditorState }) => {
                 (rawContent.blocks.length === 1 &&
                   !rawContent.blocks[0].text.trim().length)
               ) {
-                console.log("blank");
               } else {
                 socket.emit(
                   "getMessage",

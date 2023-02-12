@@ -6,7 +6,9 @@ import { useSelector } from "react-redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import { HiUsers } from "react-icons/hi";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io(import.meta.env.VITE_BACKEND_URL, {
+  transports: ["websocket", "polling"],
+});
 
 const Sidebar = ({ activeUser }) => {
   const navigate = useNavigate();

@@ -1,0 +1,54 @@
+.rdw-suggestion-dropdown {
+  position: static !important;
+  width: 50px;
+}
+
+.wysiwyg-mention,
+.rdw-link-decorator-wrapper,
+a {
+  color: rgb(0, 132, 255) !important;
+}
+
+.App {
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#side_bar .ant-list-item {
+  justify-content: flex-start !important;
+}
+.ant-list-item img {
+  width: 100px !important;
+}
+#chat_list ul {
+  list-style: inside !important;
+}
+
+#chat_list ol {
+  list-style: auto !important;
+}
+
+pre {
+  background-color: rgba(158, 158, 158, 0.278);
+  padding: 7px;
+  border-radius: 5px;
+}
+
+code {
+  background-color: rgba(158, 158, 158, 0.278);
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.chats ol li {
+  margin-left: 17px;
+}
+
+#chat_list blockquote {
+  border-left: 4px solid rgba(128, 128, 128, 0.259);
+  background-color: rgba(197, 197, 197, 0.138);
+  padding: 4px;
+  padding-left: 5px;
+}
